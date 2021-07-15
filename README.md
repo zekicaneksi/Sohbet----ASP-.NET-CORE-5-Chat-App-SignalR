@@ -2,7 +2,7 @@
 ### Asp.NET Core Chat app (SignalR)
 
 *App uses:*
-* cookies for authentication.
+* Cookies for authentication.
 * SignalR for WebSocket connections.
 * Sql connections (without Entity Framework) to interact with database. (Login/Register).
 
@@ -25,7 +25,7 @@
 
 #### To be able to run the project;
 
-* create the database using the script.
+* Create the database using the script.
 * Change the 'sohbetdb' connection string in the Sohbet/appsettings.json file.
   * For Windows-Microsoft SQL Server;<br/>
 You can see your connection string by adding the created database in Visual Studio's Server Explorer, and connection string is shown at the properties.<br/> (if Server Explorer in Visual Studio can't detect your database, be sure that Sql Server Agent service is running.)
