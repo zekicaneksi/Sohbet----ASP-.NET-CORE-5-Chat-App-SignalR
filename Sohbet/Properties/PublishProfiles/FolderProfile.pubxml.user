@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\vocul\Desktop\publishFolder</_PublishTargetUrl>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="sohbetdb">
+      <Value>Data Source=DESKTOP-4M5HCNR\SQLEXPRESS%3bInitial Catalog=sohbetdb%3bIntegrated Security=True</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+</Project>

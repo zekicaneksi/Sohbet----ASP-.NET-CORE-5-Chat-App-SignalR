@@ -1,0 +1,53 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+
+<!DOCTYPE html>
+<html lang="@Localizer["en"]" style="width:100%; height:100%;">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body style="width:100%; height:100%;">
+    <header style="width:100%; height:10%;">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container" style="justify-content:start;">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index" style="width:30%;">Sohbet</a>
+                <div style="display:flex; flex-direction:row-reverse">
+                    <form asp-controller="Home"
+                          asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path"
+                          method="post" style="width:5%;">
+                        <input name="culture" value="tr" hidden />
+                        <input type="image" src="~/icon/tr_icon.png" style="width:100%;" />
+                    </form>
+                    <form asp-controller="Home"
+                          asp-action="SetLanguage" asp-route-returnUrl="@Context.Request.Path"
+                          method="post" style="width:5%;">
+                        <input name="culture" value="en" hidden />
+                        <input type="image" src="~/icon/en_icon.png" style="width:100%;" />
+                    </form>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <div class="container" style="width:100%; height:80%;">
+        <main role="main" class="pb-3" style="width:100%; height:100%;">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted" style="width:100%; height:10%;">
+        <div class="container">
+            &copy; 2021 - Sohbet
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

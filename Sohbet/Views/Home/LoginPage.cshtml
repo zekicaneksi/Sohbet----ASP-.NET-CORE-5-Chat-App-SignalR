@@ -1,0 +1,166 @@
+﻿@model Sohbet.Models.UserModel
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["Login"].Value + " - Sohbet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div style="height:100%; width:100%; display:flex; flex-direction:row;">
+    <div style="height:100%; width:45%; margin-right:5%;">
+        <h2>@Localizer["Login"]</h2>
+        <hr />
+        <form onsubmit="return false">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <span asp-validation-for="Nick" class="text-danger" id="LoginMessage">
+            </span>
+            <div class="form-group">
+                <label asp-for="Nick" class="control-label">@Localizer["Nick"]</label>
+                <input id="NickLogin" asp-for="Nick" class="form-control" onkeypress="javascript: if (event.keyCode == 13) Login();" />
+                <span asp-validation-for="Nick" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label">@Localizer["Password"]</label>
+                <input id="PasswordLogin" asp-for="Password" class="form-control" type="password" onkeypress="javascript: if (event.keyCode == 13) Login();" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="button" onclick="Login()" value="@Localizer["Login"]" />
+            </div>
+        </form>
+    </div>
+    <div style="height:100%; width:45%; margin-left:5%;">
+        <h2>@Localizer["Register"]</h2>
+        <hr />
+        <form onsubmit="return false">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <span asp-validation-for="Nick" class="text-danger" id="RegisterMessage">
+            </span>
+            <div class="form-group">
+                <label asp-for="Nick" class="control-label">@Localizer["Nick"]</label>
+                <input id="NickRegister" asp-for="Nick" class="form-control" onkeypress="javascript: if (event.keyCode == 13) Register();" />
+                <span asp-validation-for="Nick" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Password" class="control-label">@Localizer["Password"]</label>
+                <input id="PasswordRegister" asp-for="Password" class="form-control" type="password" onkeypress="javascript: if (event.keyCode == 13) Register();" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="button" onclick="Register()" value="@Localizer["Register"]" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+    // 0 -> LoginMessage, 1-> RegisterMessage
+    // for multiple <p> child elements, provide a message with '&' delimiter
+    function ChangeSpanMessage(message, no) {
+
+        var spanMessage;
+
+        switch (no) {
+            case 0:
+                spanMessage = document.getElementById("LoginMessage");
+                break;
+            case 1:
+                spanMessage = document.getElementById("RegisterMessage");
+                break;
+            default:
+                return;
+        }
+
+        spanMessage.textContent = '';
+        var messages = message.split("&");
+        messages.forEach((message) => {
+            var node = document.createElement("p");
+            var textnode = document.createTextNode(message);
+            node.appendChild(textnode);
+            spanMessage.appendChild(node);
+        });
+    }
+
+    function Login() {
+        var userNick = document.getElementById("NickLogin").value;
+        var userPassword = document.getElementById("PasswordLogin").value;
+
+        return $.ajax({
+            url: '/Home/LoginUser',
+            data: { Nick: userNick, Password: userPassword },
+            success: function (data) {
+                if (data == "invalid credential(s)") {
+                    ChangeSpanMessage("Invalid Credentials, please try again.", 0);
+                }
+                else if (data == "Unknown Error") {
+                    ChangeSpanMessage("Unknown Error", 0);
+                }
+                else {
+                    location.href = "/";
+                }
+            }
+        });
+
+    }
+
+    function Register() {
+
+        var userNick = document.getElementById("NickRegister").value;
+        var userPassword = document.getElementById("PasswordRegister").value;
+
+        var allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        var maxLength = 15, minLength = 6;
+
+        if (userNick.length < minLength || userNick.length > maxLength || userPassword.length < minLength || userPassword.length > maxLength) {
+            ChangeSpanMessage("Max Nick/Pasword Length: 15&Min Nick/Pasword Length: 6", 1);
+            return;
+        }
+
+        var invalidCharFlag = false;
+
+        userNick.split('').forEach((ch) => {
+            if (allowedChars.includes(ch) === false) {
+                ChangeSpanMessage("Allowed Chars: " + allowedChars, 1);
+                invalidCharFlag = true;
+                return;
+            }
+        });
+
+        if (invalidCharFlag)
+            return;
+
+        userPassword.split('').forEach((ch) => {
+            if (allowedChars.includes(ch) === false) {
+                ChangeSpanMessage("Allowed Chars: " + allowedChars, 1);
+                invalidCharFlag = true;
+                return;
+            }
+        });
+
+        if (invalidCharFlag)
+            return;
+
+        return $.ajax({
+            url: '/Home/RegisterUser',
+            data: { Nick: userNick, Password: userPassword },
+            type: 'POST',
+            success: function (data) {
+                if (data == "Nick In Use") {
+                    ChangeSpanMessage("This nick is already chosen.&Please try again.", 1);
+                }
+                else if (data == "Unknown Error") {
+                    ChangeSpanMessage("Unknown Error.", 1);
+                }
+                else {
+                    document.getElementById("NickLogin").value = userNick;
+                    document.getElementById("PasswordLogin").value = userPassword;
+                    Login();
+                }
+            }
+        });
+
+
+    }
+
+</script>

@@ -1,0 +1,52 @@
+﻿@using System.Security.Claims;
+@model IEnumerable<Claim>
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = "Sohbet";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div style="width: 100%; height: 100%; background: linear-gradient(0deg, rgba(11,79,80,1) 0%, rgba(199,153,53,1) 100%);">
+    <div style="width:100%; height:8%; display:flex; flex-direction:row; padding:1em;">
+        <p style="font-family: 'Courier New', monospace; font-size:1.5em;">
+            @((from c in Model
+                 where c.Type == "Nick"
+                 select c.Value).FirstOrDefault())
+        </p>
+        <a asp-action="LogOutUser" style="margin-left:auto;">
+            <input type="button" value="@Localizer["Logout"]" class="btn btn-primary" style="font-size:1em;" />
+        </a>
+    </div>
+    <div style="width:100%;height:5%;overflow:hidden;"><hr /></div>
+    <div style="width:100%; height:87%; display:flex; flex-direction:row;">
+        <div style="width:75%;height:100%; display:flex; flex-direction:column;">
+            <div id="messagesList" style="width: 100%; height: 94%; overflow: auto; display: flex; flex-direction: column; flex-wrap: nowrap; font-family: 'Brush Script MT' , cursive; padding-left:4%;"></div>
+            <div style="width: 100%; height: 6%; display: flex; flex-direction: row;">
+                <input type="text" id="messageInput" style="width: 95%; height: 100%; font-family: 'Brush Script MT', cursive;" />
+                <input type="image" id="sendButton" src="~/icon/flame_icon.png" style="width: 5%; height: 100%;" />
+                @*<input type="button" id="sendButton" style="width: 10%; height: 100%;" class="btn btn-dark" />*@
+            </div>
+        </div>
+        <div style="width: 25%; height: 100%; float: right; overflow: auto;">
+            <div style="height:10%;">
+                <h5>@Localizer["Active Users"]</h5>
+                <hr />
+            </div>
+            <div id="activeUsersDiv" style="overflow: auto; height:90%;">
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    document.getElementById("messageInput").addEventListener("keyup", function (event) {
+        // Number 13 is the "Enter" key on the keyboard
+        if (event.keyCode === 13) {
+            document.getElementById("sendButton").click();
+        }
+    });
+</script>
+<script src="~/js/signalr/dist/browser/signalr.js"></script>
+<script src="~/js/chat.js"></script>
