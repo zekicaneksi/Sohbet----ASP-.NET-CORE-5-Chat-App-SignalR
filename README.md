@@ -14,7 +14,7 @@
   * UserModel: For user credentials.
   * ErrorViewModel: Not really used but still necessary, i think.
 * Resources for the 2 view pages, and the layout page for the purpose of supporting the Turkish language.
-* a few icons used in the app are placed in the wwwroot folder.
+* A few icons used in the app are placed in the wwwroot folder.
 
 ### Login Page
 ![image](https://user-images.githubusercontent.com/59491631/125852265-aa14eba3-ff1c-4f7e-84c7-8d42047f84cb.png)
