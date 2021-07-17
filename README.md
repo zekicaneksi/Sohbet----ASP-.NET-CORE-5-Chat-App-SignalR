@@ -1,5 +1,5 @@
 # Sohbet
-## Asp.NET Core Chat app (SignalR)
+## Asp.NET Core 5 Chat app (SignalR)
 
 *App uses:*
 * Cookies for authentication.
