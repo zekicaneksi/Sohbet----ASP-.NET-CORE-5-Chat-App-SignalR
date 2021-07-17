@@ -24,7 +24,7 @@
 
 #### To be able to run the project;
 
-* Create the database using the script.
+* Create the database using the script. (using Microfost SQL Server Manager) (idk, if it works with other sql servers like mySql)
 * Change the 'sohbetdb' connection string in the Sohbet/appsettings.json file.
   * For Windows-Microsoft SQL Server;<br/>
 You can see your connection string by adding the created database in Visual Studio's Server Explorer, and connection string is shown at the properties.<br/> (If Server Explorer in Visual Studio can't detect your server, be sure that Sql Server Agent service is running.)
